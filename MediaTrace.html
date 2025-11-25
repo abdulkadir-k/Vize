@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediTrace Panel</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;700&family=Azeret+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- ✅ CSS dosyasını bağla -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ✅ SIDEBAR -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header-row">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-file-medical"></i>
+                <span>MediTrace</span>
+            </div>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fa-solid fa-angles-left"></i>
+            </button>
+        </div>
+
+        <ul class="nav-menu">
+            <li><a href="#dashboard" class="nav-link active"><i class="fa-solid fa-chart-pie"></i><span>Genel Bakış</span></a></li>
+            <li><a href="#trace" class="nav-link"><i class="fa-solid fa-qrcode"></i><span>İlaç İzleme</span></a></li>
+            <li><a href="#explorer" class="nav-link"><i class="fa-solid fa-cube"></i><span>Blok Gezgini</span></a></li>
+            <li><a href="#nodes" class="nav-link"><i class="fa-solid fa-network-wired"></i><span>Paydaşlar</span></a></li>
+            <li><a href="#settings" class="nav-link"><i class="fa-solid fa-cog"></i><span>Ayarlar</span></a></li>
+        </ul>
+
+        <div class="sidebar-actions">
+            <div class="sidebar-wallet">
+                <h4><i class="fa-solid fa-wallet"></i> Cüzdan Bakiyesi</h4>
+                <p>4,120.50 TRC</p>
+            </div>
+
+            <button class="register-button" id="openRegisterModal">
+                <i class="fa-solid fa-plus"></i><span>Yeni İlaç Kaydet</span>
+            </button>
+
+            <div class="sidebar-user">
+                <i class="fa-solid fa-user-tie"></i>
+                <div>Giriş Yapan:<strong>Abdulkadir (Üretici)</strong></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ✅ ANA İÇERİK ALANI -->
+    <main class="main-content">
+
+        <header class="topbar">
+            <div class="topbar-title mono-font">MediTrace Pilot Panel</div>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fa-solid fa-moon"></i> Dark
+            </button>
+        </header>
+
+        <!-- ✅ Dashboard -->
+        <div id="dashboard" class="page active">
+            <h2 class="page-header">Genel Bakış</h2>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-icon icon-drug"><i class="fa-solid fa-prescription-bottle"></i></div>
+                    <div class="stat-card-info">
+                        <h3>Pilot Takipteki İlaç</h3>
+                        <p class="stat-number" data-target="10000">0</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-icon icon-block"><i class="fa-solid fa-link"></i></div>
+                    <div class="stat-card-info">
+                        <h3>Toplam Blok Sayısı</h3>
+                        <p class="stat-number" data-target="45820">0</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-icon icon-alert"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="stat-card-info">
+                        <h3>Engellenen Şüpheler</h3>
+                        <p><span class="stat-number" data-target="4">0</span> (Simülasyon)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3 class="content-card-header">Son 7 Günlük Blok Aktivitesi</h3>
+                <canvas id="activityChart"></canvas>
+            </div>
+        </div>
+
+        <!-- ✅ İlaç İzleme Sayfası -->
+        <div id="trace" class="page">
+            <h2 class="page-header">İlaç İzleme</h2>
+
+            <div class="content-card">
+                <h3 class="content-card-header">QR ile Sorgula</h3>
+                <input type="text" id="qrInput" class="form-input" placeholder="987654 / 123456 / 888">
+                <button class="form-button" id="traceButton"><i class="fa-solid fa-search"></i> Sorgula</button>
+            </div>
+
+            <div class="trace-loader" id="traceLoader">
+                <i class="fa-solid fa-spinner"></i>
+                <p>Sorgulanıyor...</p>
+            </div>
+
+            <div class="trace-result-card" id="traceResultCard"></div>
+            <div class="trace-timeline" id="traceTimeline"></div>
+        </div>
+
+    </main>
+
+    <!-- ✅ Modal -->
+    <div class="modal-overlay" id="registerModal">
+        <div class="modal-box">
+            <h2>Yeni İlaç Kaydet</h2>
+            <button class="modal-close-btn" id="closeRegisterModal">✖</button>
+            <input type="text" id="ilacAdi" class="form-input" value="HERCEPTIN">
+            <input type="text" id="lotKodu" class="form-input" value="LOT-2025-AX45B">
+            <input type="number" id="adet" class="form-input" value="100">
+            <button class="form-button" id="registerSubmitButton">Kaydet</button>
+        </div>
+    </div>
+
+    <!-- ✅ JS dosyasını bağla -->
+    <script src="app.js"></script>
+
+</body>
+</html>
